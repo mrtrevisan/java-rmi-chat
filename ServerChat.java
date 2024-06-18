@@ -69,6 +69,7 @@ public class ServerChat extends JFrame
         }
     }
 
+    //atualiza lista de salas
     private void refreshRoomList()
     {
         try
@@ -82,12 +83,17 @@ public class ServerChat extends JFrame
         }
     }
 
+    //setup da box de seleção de sala
     private void setupRoomBox()
     {
         roomComboBox = new JComboBox<>();
         refreshRoomList();
     }
 
+    //termina uma sala:
+    // remove a sala da lista de salas
+    // chama o método closeRoom() da sala
+    // atualiza a lista de salas
     private void closeRoom()
     {
         String roomName = (String) roomComboBox.getSelectedItem();;
@@ -106,8 +112,8 @@ public class ServerChat extends JFrame
         } 
     }
 
-    // atualiza o texto da chatArea
-    // esse método é chamado pelo método remoto deliverMessage()
+    // atualiza o texto da tela
+    // mensagens de sistema
     public void displayMessage(String message)
     {
         SwingUtilities.invokeLater(() -> {
@@ -127,7 +133,7 @@ public class ServerChat extends JFrame
 
         //painel para seleção de sala
         JPanel roomPanel = new JPanel();
-        roomPanel.add(new JLabel("Escolha ou crie uma sala:"));
+        roomPanel.add(new JLabel("Escolha a sala para gerenciar:"));
 
         //cria a caixa de seleção de sala e adiciona ao painel
         setupRoomBox();
@@ -139,7 +145,7 @@ public class ServerChat extends JFrame
             refreshRoomList();
         });
         
-        // botão de criar nova sala
+        // botão de fechar sala
         JButton closeRoomButton = new JButton("Fechar sala");
         closeRoomButton.addActionListener(e -> {
             closeRoom();
