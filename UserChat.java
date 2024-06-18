@@ -115,6 +115,12 @@ public class UserChat extends JFrame
     // esse método é chamado pelo método remoto deliverMessage()
     public void displayMessage(String message)
     {
+        if (message.contains("Sala fechada pelo servidor."))
+        {
+            refreshRoomList();
+            selectedRoom = null;
+        }
+
         SwingUtilities.invokeLater(() -> {
             chatTextArea.append(message + "\n");
             chatTextArea.setCaretPosition(chatTextArea.getDocument().getLength());

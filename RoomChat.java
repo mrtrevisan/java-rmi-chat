@@ -30,7 +30,7 @@ public class RoomChat extends UnicastRemoteObject implements IRoomChat {
         userList.put(usrName, user);
 
         sendMsg("SYSTEM", usrName + " entrou na sala.");
-        System.out.println(usrName + " entrou na sala: " + roomName);
+        // System.out.println(usrName + " entrou na sala: " + roomName);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class RoomChat extends UnicastRemoteObject implements IRoomChat {
         userList.entrySet().removeIf(user -> user.getKey().equals(usrName));
 
         sendMsg("SYSTEM", usrName + " saiu da sala.");
-        System.out.println(usrName + " saiu da sala: " + roomName);
+        // System.out.println(usrName + " saiu da sala: " + roomName);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class RoomChat extends UnicastRemoteObject implements IRoomChat {
         }
 
         userList.clear();
-        System.out.println("Sala " + roomName + " fechada pelo servidor.");
+        // System.out.println("Sala " + roomName + " fechada pelo servidor.");
 
         java.rmi.registry.Registry registry = java.rmi.registry.LocateRegistry.getRegistry(2020);
             
