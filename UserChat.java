@@ -1,4 +1,3 @@
-
 import java.io.Serializable;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -6,6 +5,10 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.awt.*;
 import javax.swing.*;
+
+class Config {
+    public static String HOST = "localhost";
+}
 
 @SuppressWarnings("unused")
 class UserChatImpl extends UnicastRemoteObject implements IUserChat, Serializable {
@@ -58,7 +61,7 @@ public class UserChat extends JFrame
     {
         try 
         {
-            server = (IServerChat) Naming.lookup("rmi://localhost:2020/Servidor");
+            server = (IServerChat) Naming.lookup("rmi://" + Config.HOST + ":2020/Servidor");
             userChat = new UserChatImpl(userName, this);
         } 
         catch (Exception e) 
@@ -102,7 +105,7 @@ public class UserChat extends JFrame
             String roomName = selectedRoom;
             if (roomName == null) return;
     
-            IRoomChat room = (IRoomChat) Naming.lookup("rmi://localhost:2020/" + roomName);
+            IRoomChat room = (IRoomChat) Naming.lookup("rmi://" + Config.HOST + ":2020/" + roomName);
             room.sendMsg(userName, message);
         }
         catch (Exception e)
@@ -135,7 +138,7 @@ public class UserChat extends JFrame
             String roomName = selectedRoom;
             if (roomName == null) return;
 
-            IRoomChat room = (IRoomChat) Naming.lookup("rmi://localhost:2020/" + roomName);
+            IRoomChat room = (IRoomChat) Naming.lookup("rmi://" + Config.HOST + ":2020/" + roomName);
             room.leaveRoom(userName);
 
             selectedRoom = null;
@@ -183,7 +186,7 @@ public class UserChat extends JFrame
                 {
                     if (selectedRoom != null) exitRoom();
 
-                    IRoomChat room = (IRoomChat) Naming.lookup("rmi://localhost:2020/" + roomName);
+                    IRoomChat room = (IRoomChat) Naming.lookup("rmi://" + Config.HOST + ":2020/" + roomName);
                     room.joinRoom(userName, (IUserChat) userChat);
 
                     displayMessage("Você entrou na sala: " + roomName);
@@ -256,6 +259,10 @@ public class UserChat extends JFrame
 
     public static void main(String[] args)
     {
+        if (args.length != 0) {
+            Config.HOST = args[0];
+        }
+
         SwingUtilities.invokeLater(() -> {
             try
             {
