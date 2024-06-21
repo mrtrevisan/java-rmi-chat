@@ -2,7 +2,7 @@
 
 ### Autores:
 - Mauro Roberto Trevisan (mrtrevisan)
-- Ramon Godoy Izidoro (ramonxxii)
+- Ramon Godoy Izidoro (<a href="https://github.com/ramonXXII/">Ramon XXII</a>)
 
 ### Dependencies: 
 - openjdk 22.0.1
