@@ -1,5 +1,3 @@
-
-// RoomChat.java
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

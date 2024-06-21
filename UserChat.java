@@ -259,10 +259,13 @@ public class UserChat extends JFrame
 
     public static void main(String[] args)
     {
-        if (args.length != 0) {
-            Config.HOST = args[0];
+        if (args.length == 0) {
+            System.out.println("Expected Server IP argument.");
+            System.exit(1);
         }
-
+        
+        Config.HOST = args[0];
+        
         SwingUtilities.invokeLater(() -> {
             try
             {

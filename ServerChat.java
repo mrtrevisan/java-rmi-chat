@@ -1,5 +1,4 @@
 import java.rmi.AlreadyBoundException;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -8,6 +7,21 @@ import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.io.Serializable;
+
+import java.net.InetAddress;  
+import java.net.UnknownHostException;
+
+class LocalIPFinder {  
+    public static String getIp() {  
+        try {  
+            InetAddress localhost = InetAddress.getLocalHost();  
+            return localhost.getHostAddress();
+        } catch (UnknownHostException ex) {  
+            ex.printStackTrace(); 
+            return null; 
+        }  
+    }  
+}  
 
 @SuppressWarnings("unused")
 class ServerChatImpl extends UnicastRemoteObject implements IServerChat, Serializable {
@@ -101,7 +115,9 @@ public class ServerChat extends JFrame
         if (roomName == null) return;
         
         try {
-            IRoomChat room = (IRoomChat) Naming.lookup("rmi://localhost:2020/" + roomName);
+            java.rmi.registry.Registry registry = java.rmi.registry.LocateRegistry.getRegistry(2020);
+            IRoomChat room = (IRoomChat) registry.lookup(roomName);
+
             server.endRoom(roomName);
             room.closeRoom();
 
@@ -168,6 +184,14 @@ public class ServerChat extends JFrame
     }
 
     public static void main(String[] args) {
+        String ip = LocalIPFinder.getIp();
+        if (ip == null) {
+            System.out.println("Could not find Local IP address.");
+            System.exit(1);
+        }
+
+        System.setProperty("java.rmi.server.hostname", ip);
+
         SwingUtilities.invokeLater(() -> {
             try
             {
@@ -177,6 +201,7 @@ public class ServerChat extends JFrame
                 serverChatGUI.setVisible(true);
             
                 serverChatGUI.displayMessage("Servidor pronto!");
+                serverChatGUI.displayMessage("IP: " + ip);
             }
             catch (Exception e)
             {
