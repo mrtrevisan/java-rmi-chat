@@ -29,7 +29,6 @@ class ServerChatImpl extends UnicastRemoteObject implements IServerChat, Seriali
     private ServerChat serverGUI;
 
     public ServerChatImpl(ServerChat serverGUI_) throws RemoteException {
-        super();
         serverGUI = serverGUI_;
         roomList = new ArrayList<>();
     }
@@ -75,7 +74,7 @@ public class ServerChat extends JFrame
         try {
             server = new ServerChatImpl(this);
             java.rmi.registry.Registry registry = java.rmi.registry.LocateRegistry.getRegistry(2020);
-            registry.rebind("Servidor", server);
+            registry.rebind("Servidor", (IServerChat) server);
 
             setupGUI();
         } catch (RemoteException e) {
